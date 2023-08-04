@@ -2,13 +2,13 @@
   "display": "fullscreen",
   "orientation": "portrait",
   "short_name": "PWA Notifications",
-  "start_url": "https://www.paulportier.com/",
-  "scope": "https://www.paulportier.com/",
+  "start_url": "https://apaep.eu.ngrok.io",
+  "scope": "https://apaep.eu.ngrok.io",
   "background_color": "#111827",
   "description": "PWA Notifications by ApaeP",
   "name": "PWA Notifications",
   "icons": [
-    <% files = Dir.entries(Rails.root.join("app/assets/images/icons/")).select {|f| !File.directory? f} %>
+    <% files = Dir.entries(Rails.root.join("app/assets/images/icons/")).select { |f| !File.directory?(f) }.reject { |f| f == '.DS_Store'  } %>
     <% files.each_with_index do |file, index| %>
       <% match = file.match(/.+-(?<size>\d{2,3}x\d{2,3}).png/) %>
       {

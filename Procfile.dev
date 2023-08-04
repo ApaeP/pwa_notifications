@@ -1,0 +1,1 @@
+ngrok: ngrok http --region=eu --hostname=apaep.eu.ngrok.io 3000

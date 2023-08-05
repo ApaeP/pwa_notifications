@@ -5,11 +5,11 @@ export default class extends Controller {
   static targets = ["subscribe"]
   static values = {
     subscribed: Boolean,
-    vapidPublicKey: String
+    vapidPublicKey: Array
   }
 
   connect() {
-    this.vapidPublicKeyValue = window.vapidPublicKey
+    this.vapidPublicKey = new Uint8Array(this.vapidPublicKeyValue)
   }
 
   subscribe(e) {
@@ -27,7 +27,9 @@ export default class extends Controller {
             }
             return registration.pushManager.subscribe({
               userVisibleOnly: true,
-              applicationServerKey: window.vapidPublicKey
+              applicationServerKey: this.vapidPublicKey
+            }).catch((err) => {
+              window.alert("Couldn't get subscription", err);
             });
           });
       }).then((subscription) => {
@@ -47,13 +49,15 @@ export default class extends Controller {
 
   #sendSubscription(subscription) {
     console.log("#sendSubscription", subscription);
+    const body = { "subscription": subscription }
+    body["subscription"]["device_id"] = this.#deviceId();
     const options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
       },
-      body: JSON.stringify({ "subscription": subscription })
+      body: JSON.stringify(body)
     }
     fetch('/subscriptions', options)
       .then((response) => response.json())
@@ -76,5 +80,16 @@ export default class extends Controller {
       .then((data) => {
         console.log(data);
       })
+  }
+
+  #deviceId() {
+    let deviceId = localStorage.getItem('DeviceId');
+
+    if (!deviceId) {
+      deviceId = crypto.randomUUID();
+      localStorage.setItem('DeviceId', deviceId);
+    }
+    console.log("deviceId", deviceId);
+    return deviceId;
   }
 }

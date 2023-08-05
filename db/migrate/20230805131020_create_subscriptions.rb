@@ -5,6 +5,7 @@ class CreateSubscriptions < ActiveRecord::Migration[7.0]
       t.string :endpoint
       t.string :p256dh_key
       t.string :auth_key
+      t.string :device_id
 
       t.timestamps
     end

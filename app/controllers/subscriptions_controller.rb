@@ -3,7 +3,8 @@ class SubscriptionsController < ApplicationController
     sub_params = {
       endpoint: subscription_params[:endpoint],
       p256dh_key: subscription_params[:keys][:p256dh],
-      auth_key: subscription_params[:keys][:auth]
+      auth_key: subscription_params[:keys][:auth],
+      device_id: subscription_params[:device_id]
     }
     if current_user.subscriptions.create(sub_params)
       render json: { status: 'ok' }, status: :ok
@@ -23,6 +24,6 @@ class SubscriptionsController < ApplicationController
   private
 
   def subscription_params
-    params.require(:subscription).permit(:endpoint, :expirationTime, keys: %i[p256dh auth])
+    params.require(:subscription).permit(:endpoint, :expirationTime, :device_id, keys: %i[p256dh auth])
   end
 end

@@ -19,6 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_05_131020) do
     t.string "endpoint"
     t.string "p256dh_key"
     t.string "auth_key"
+    t.string "device_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_subscriptions_on_user_id"

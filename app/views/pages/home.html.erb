@@ -1,18 +1,26 @@
 <div class="container flex-fill my-4 d-flex flex-column">
   <h1 class="text-center">Test iOS PWA Web Push Notifications</h1>
   <div class="flex-fill d-flex align-items-center justify-content-center">
-    <%= link_to root_path,
-                class: "btn btn-primary btn-lg position-relative",
-                data: {
-                  turbo: false,
-                  controller: 'reload-btn',
-                  action: 'click->reload-btn#reload',
-                } do %>
-      <p class="position-absolute text-black top-100 translate-middle-x start-50 my-2 fs-6 d-none"
-         data-reload-btn-target="notice">
-        reloaded
-      </p>
-      <i class="fa-solid fa-rotate-right"></i>
+
+    <% if user_signed_in? %>
+      <%= link_to "Subscribe", root_path, data: { action: 'click->serviceworker#subscribe' } %>
+      <%= link_to "Unsubscribe", root_path, data: { action: 'click->serviceworker#unsubscribe' } %>
+      <%= link_to root_path,
+                  class: "btn btn-primary btn-lg position-relative",
+                  data: {
+                    turbo: false,
+                    controller: 'reload-btn',
+                    action: 'click->reload-btn#reload',
+                  } do %>
+        <p class="position-absolute text-black top-100 translate-middle-x start-50 my-2 fs-6 d-none"
+          data-reload-btn-target="notice">
+          reloaded
+        </p>
+        <i class="fa-solid fa-rotate-right"></i>
+      <% end %>
+    <% else %>
+      <%= link_to "Login", new_user_session_path, class: "nav-link" %>
     <% end %>
+
   </div>
 </div>

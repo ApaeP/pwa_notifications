@@ -15,9 +15,6 @@
   <body class="d-flex flex-column min-vh-100"
         data-controller="serviceworker"
         data-serviceworker-vapid-public-key-value="<%= Base64.urlsafe_decode64(ENV['VAPID_PUBLIC_KEY']).bytes %>">
-    <%#= render "shared/navbar" %>
-    <%= render "shared/flashes" %>
-
     <%= yield %>
   </body>
 </html>

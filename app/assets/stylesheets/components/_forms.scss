@@ -1,0 +1,64 @@
+.custom-form {
+  --input-focus: #FFFFFF;
+  --font-color: #2D3C5A;
+  --font-color-sub: #2D3C5A;
+  --bg-color: #fff;
+  --main-color: #000000;
+  padding: 20px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  border-radius: 5px;
+  border: 2px solid var(--main-color);
+  box-shadow: 4px 4px var(--main-color);
+  .title {
+    color: var(--font-color);
+    font-weight: 900;
+    font-size: 20px;
+    margin-bottom: 25px;
+    span {
+      color: var(--font-color-sub);
+      font-weight: 600;
+      font-size: 17px;
+    }
+  }
+
+  .input {
+    width: 250px;
+    height: 40px;
+    border-radius: 5px;
+    border: 2px solid var(--main-color);
+    background-color: var(--bg-color);
+    box-shadow: 4px 4px var(--main-color);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--font-color);
+    padding: 5px 10px;
+    outline: none;
+    &::placeholder {
+      color: var(--font-color-sub);
+      opacity: 0.8;
+    }
+    &:focus {
+      border: 2px solid var(--input-focus);
+    }
+  }
+
+  .button-confirm {
+    margin: 50px auto 0 auto;
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    border: 2px solid var(--main-color);
+    background-color: var(--bg-color);
+    box-shadow: 4px 4px var(--main-color);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--font-color);
+    cursor: pointer;
+  }
+}
+

@@ -1,18 +1,62 @@
-<div class="container flex-fill my-4 d-flex flex-column">
-  <h1 class="text-center">Test iOS PWA Web Push Notifications</h1>
-  <div class="flex-fill d-flex align-items-center justify-content-center">
-    <%= link_to root_path,
-                class: "btn btn-primary btn-lg position-relative",
-                data: {
-                  turbo: false,
-                  controller: 'reload-btn',
-                  action: 'click->reload-btn#reload',
-                } do %>
-      <p class="position-absolute text-black top-100 translate-middle-x start-50 my-2 fs-6 d-none"
-         data-reload-btn-target="notice">
-        reloaded
-      </p>
-      <i class="fa-solid fa-rotate-right"></i>
-    <% end %>
+<div class="container w-100 flex-fill my-4 d-flex flex-column">
+
+  <h1 class="custom-title custom-title-xl d-inline-block mx-auto" data-text="PWA Web Push">
+    PWA Web Push
+  </h1>
+
+  <div class="flex-fill d-flex flex-column align-items-center justify-content-center">
+
+    <div class="col-12 col-md-6 col-xl-3 mx-auto">
+      <% if user_signed_in? %>
+        <div class="d-flex align-items-center mb-4">
+          <span class="d-none custom-title custom-title-sm flex-fill" data-text="Notifications">Notifications</span>
+          <span class="custom-switch__label flex-fill" data-text="Notifications">Notifications</span>
+          <label class="custom-switch">
+            <input type="checkbox" id="notifs"
+                    data-action="change->serviceworker#toggleSubscription"
+                    <%= @subscribed ? "checked" : "" %>>
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <%= link_to send_test_push_notification_path,
+                    class: "custom-button w-100 mb-4",
+                    data: {
+                      action: 'click->serviceworker#sendTestNotification'
+                    } do %>
+          <span class="custom-button__top">
+            <i class="fa-regular fa-paper-plane me-2"></i> Notify me
+          </span>
+        <% end %>
+        <%= link_to root_path,
+                    class: "custom-button w-100 mb-4 position-relative",
+                    data: {
+                      turbo: false,
+                      controller: 'reload-btn',
+                      action: 'click->reload-btn#reload',
+                    } do %>
+          <p class="position-absolute text-black top-100 translate-middle-x start-50 my-2 fs-6 d-none"
+            data-reload-btn-target="notice">
+            reloaded
+          </p>
+          <span class="custom-button__top">
+            <i class="fa-solid fa-rotate-right me-2"></i> Reload
+          </span>
+        <% end %>
+        <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: "custom-button" do %>
+          <span class="custom-button__top">
+            <i class="fa-solid fa-person-through-window me-2"></i> Logout
+          </span>
+        <% end %>
+      <% else %>
+        <div class="d-flex justify-content-center">
+          <%= link_to new_user_session_path, class: "custom-button" do %>
+            <span class="custom-button__top">
+              <i class="fa-solid fa-child-reaching me-2"></i> Login
+            </span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>

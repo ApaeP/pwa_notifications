@@ -27,18 +27,18 @@
     }
 
     &:hover+.slider:before {
-      transform: translateY(-0.25em);
-      box-shadow: 0 0.3em 0 var(--outline_color);
+      transform: translateY(-0.3rem);
+      box-shadow: 0 0.3rem 0 var(--outline_color);
     }
 
     &:checked+.slider:before {
       background-color: $custom-success;
-      transform: translateX(calc(var(--switch_width) - var(--switch_height))) translateY(-0.2em);
+      transform: translateX(calc(var(--switch_width) - var(--switch_height))) translateY(-0.2rem);
     }
 
     &:hover:checked+.slider:before {
-      transform: translateX(calc(var(--switch_width) - var(--switch_height))) translateY(-0.3em);
-      box-shadow: 0 0.3em 0 var(--outline_color);
+      transform: translateX(calc(var(--switch_width) - var(--switch_height))) translateY(-0.3rem);
+      box-shadow: 0 0.3rem 0 var(--outline_color);
     }
   }
 
@@ -66,8 +66,8 @@
       left: -2px;
       bottom: -2px;
       background-color: $custom-danger;
-      transform: translateY(-0.2em);
-      box-shadow: 0 0.2em 0 var(--outline_color);
+      transform: translateY(-0.2rem);
+      box-shadow: 0 0.2rem 0 var(--outline_color);
       transition: .15s;
     }
   }

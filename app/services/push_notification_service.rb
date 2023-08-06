@@ -20,19 +20,11 @@ class PushNotificationService
   private
 
   def send_push_notification(subscription)
-    WebPush.payload_send(
-      message: @message,
-      endpoint: subscription.endpoint,
-      p256dh: subscription.p256dh_key,
-      auth: subscription.auth_key,
-      vapid: {
-        subject: "mailto:sender@example.com",
-        public_key: ENV['VAPID_PUBLIC_KEY'],
-        private_key: ENV['VAPID_PRIVATE_KEY']
-      },
-      ssl_timeout: 5,
-      open_timeout: 5,
-      read_timeout: 5
-    )
+    notif_data = {
+      title: "PushNotificationService title: Pouet pouet 🎺",
+      body: "PushNotificationService message: #{@message}",
+    }
+    WebPushService.payload_send(JSON.generate(notif_data), subscription)
   end
 end
+

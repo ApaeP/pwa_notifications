@@ -1,0 +1,65 @@
+.fs-6rem {
+  font-size: 6rem;
+}
+
+.fs-5rem {
+  font-size: 5rem;
+}
+
+.fs-4rem {
+  font-size: 4rem;
+}
+
+.fs-3rem {
+  font-size: 3rem;
+}
+
+.fs-2rem {
+  font-size: 2rem;
+}
+
+.custom-title {
+  --base-size: 3rem;
+  font-size: var(--base-size);
+  text-transform: Uppercase;
+  margin-bottom: calc(var(--base-size) * 0.2);
+  font-family: 'Rubik', sans-serif;
+  color: #E4E5E6;
+  position: relative;
+  background: $custom-secondary;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  &:after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -2;
+    text-shadow: calc(var(--base-size) * 0.1) calc(var(--base-size) * 0.1) calc(var(--base-size) * 0.1) rgba(0, 0, 0, .5),
+      calc(var(--base-size) * 0.21) calc(var(--base-size) * 0.21) calc(var(--base-size) * 0.21) rgba(0, 0, 0, .4),
+      calc(var(--base-size) * 0.3) calc(var(--base-size) * 0.3) calc(var(--base-size) * 0.3) rgba(0, 0, 0, .1);
+    // text-shadow: 10px 10px 10px rgba(0, 0, 0, .5), 20px 20px 20px rgba(0, 0, 0, .4), 30px 30px 30px rgba(0, 0, 0, .1);
+    mix-blend-mode: multiply;
+  }
+
+  &-xxl {
+    --base-size: 6rem;
+  }
+
+  &-xl {
+    --base-size: 5rem;
+  }
+
+  &-lg {
+    --base-size: 4rem;
+  }
+
+  &-md {
+    --base-size: 3rem;
+  }
+
+  &-sm {
+    --base-size: 2rem;
+  }
+}

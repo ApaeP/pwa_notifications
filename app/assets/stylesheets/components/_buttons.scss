@@ -1,0 +1,40 @@
+.custom-button {
+  --base-size: 1rem;
+  --button_radius: 0.75rem;
+  --button_color: rgb(35, 50, 80);
+  --button_active_color: rgb(45, 60, 90);
+  --button_outline_color: #000000;
+  font-size: var(--base-size);
+  font-weight: bold;
+  font-family: 'Rubik', sans-serif;
+  text-transform: Uppercase;
+  border: none;
+  border-radius: var(--button_radius);
+  background: var(--button_outline_color);
+  padding-inline: 0px;
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+
+  &__top {
+    display: block;
+    box-sizing: border-box;
+    border: 2px solid var(--button_outline_color);
+    border-radius: var(--button_radius);
+    padding: 0.75rem 1.5rem;
+    background: var(--button_color);
+    color: var(--button_outline_color);
+    transform: translateY(-0.2rem);
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+
+  &:hover &__top {
+    transform: translateY(-0.28rem);
+    background: var(--button_active_color);
+  }
+
+  &:active &__top {
+    transform: translateY(0);
+    background: var(--button_active_color);
+  }
+}

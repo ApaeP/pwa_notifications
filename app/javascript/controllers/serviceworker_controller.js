@@ -4,17 +4,57 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["subscribe"]
   static values = {
-    subscribed: Boolean,
+    subscription: Object,
     vapidPublicKey: Array
   }
 
   connect() {
+    this.#clearBadge()
     this.vapidPublicKey = new Uint8Array(this.vapidPublicKeyValue)
+  }
+
+  toggleSubscription(e) {
+    const input = e.currentTarget
+    input.checked ? this.subscribe(e) : this.unsubscribe(e)
   }
 
   subscribe(e) {
     e.preventDefault()
     this.#getSubscription()
+  }
+
+  unsubscribe(e) {
+    e.preventDefault()
+    navigator.serviceWorker.ready.then((registration) => {
+      registration.pushManager.getSubscription().then((subscription) => {
+        this.#deleteSubscriptions()
+        if (!subscription) subscription.unsubscribe();
+      });
+    });
+  }
+
+  sendTestNotification(e) {
+    e.preventDefault()
+    this.#sendTestNotification(e.currentTarget.href)
+  }
+
+  #sendTestNotification(url) {
+    const body = { "message": "pouet" }
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+      },
+      body: JSON.stringify(body)
+    }
+    fetch(url, options)
+  }
+
+  #clearBadge() {
+    if (!navigator.clearAppBadge) return
+
+    navigator.clearAppBadge();
   }
 
   #getSubscription() {
@@ -37,18 +77,8 @@ export default class extends Controller {
       });
   }
 
-  unsubscribe(e) {
-    e.preventDefault()
-    navigator.serviceWorker.ready.then((registration) => {
-      registration.pushManager.getSubscription().then((subscription) => {
-        this.#deleteSubscriptions()
-        if (!subscription) subscription.unsubscribe();
-      });
-    });
-  }
 
   #sendSubscription(subscription) {
-    console.log("#sendSubscription", subscription);
     const body = { "subscription": subscription }
     body["subscription"]["device_id"] = this.#deviceId();
     const options = {
@@ -60,14 +90,9 @@ export default class extends Controller {
       body: JSON.stringify(body)
     }
     fetch('/subscriptions', options)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
   }
 
   #deleteSubscriptions() {
-    console.log("#deleteSubscriptionss");
     const options = {
       method: 'DELETE',
       headers: {
@@ -76,20 +101,37 @@ export default class extends Controller {
       }
     }
     fetch('/subscriptions', options)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
   }
 
   #deviceId() {
-    let deviceId = localStorage.getItem('DeviceId');
-
+    let deviceId = this.#getCookie('DeviceId');
     if (!deviceId) {
       deviceId = crypto.randomUUID();
-      localStorage.setItem('DeviceId', deviceId);
+      this.#setCookie('DeviceId', deviceId, 365);
     }
-    console.log("deviceId", deviceId);
     return deviceId;
+  }
+
+  #getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  #setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    let expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
   }
 }

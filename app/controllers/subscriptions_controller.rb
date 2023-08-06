@@ -1,4 +1,6 @@
 class SubscriptionsController < ApplicationController
+  skip_before_filter :verify_authenticity_token, only: %i[update]
+
   def create
     sub_params = {
       endpoint: subscription_params[:endpoint],
@@ -15,6 +17,20 @@ class SubscriptionsController < ApplicationController
 
   def destroy
     if current_user.subscriptions.destroy_all
+      render json: { status: 'ok' }, status: :ok
+    else
+      render json: { status: 'error' }, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    @subscription = current_user.subscriptions.find_by(device_id: params[:device_id])
+    sub_params = {
+      endpoint: params[:new_subscription][:endpoint],
+      p256dh_key: params[:new_subscription][:keys][:p256dh],
+      auth_key: params[:new_subscription][:keys][:auth],
+    }
+    if @subscription && @subscription.update(sub_params)
       render json: { status: 'ok' }, status: :ok
     else
       render json: { status: 'error' }, status: :unprocessable_entity

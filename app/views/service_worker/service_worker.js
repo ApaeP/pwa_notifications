@@ -10,25 +10,21 @@ const onFetch = (event) => {}
 
 const onPush = (event) => {
   console.log('[Serviceworker]', "Push Received!", event);
-  var message = event.data;
-  console.log(message);
+  // var payload = event.data.json();
 
-  event.waitUntil(self.registration.showNotification("prout"))
-  //   body: message.body,
-  //   icon: message.icon,
-  //   badge: message.badge,
-  //   data: message.data,
-  //   vibrate: [200, 100, 200, 100, 200, 100, 200],
-  //   tag: message.tag,
-  //   renotify: true,
-  //   requireInteraction: true,
-  //   actions: [
-  //     { action: 'accept', title: 'Accept' },
-  //     { action: 'reject', title: 'Reject' }
-  //   ]
-  // }));
+  const img = "https://cdn-icons-png.flaticon.com/512/3119/3119338.png";
+  const text = "New notification";
+  const title = "You have received a new notification";
+  const options = {
+    body: text,
+    icon: img,
+    vibrate: [200, 100, 200],
+    image: img,
+    badge: 3,
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
   event.waitUntil(
-    navigator.setAppBadge(1).catch((error) => {
+    navigator.setAppBadge().catch((error) => {
       console.log(error);
     })
   );

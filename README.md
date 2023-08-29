@@ -1,1 +1,1 @@
-Rails app generated with [lewagon/rails-templates](https://github.com/lewagon/rails-templates), created by the [Le Wagon coding bootcamp](https://www.lewagon.com) team.
+An example Power Web App made with Rails 7, that allows push notifications on all devices (iOS, Android, any navigator)
